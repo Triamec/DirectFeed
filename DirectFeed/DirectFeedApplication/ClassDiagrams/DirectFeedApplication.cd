@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Direct Feeder Sample Application&#xD;&#xA;$Id: DirectFeedApplication.cd 35446 2020-11-10 10:07:51Z chm $&#xD;&#xA;Copyright © 2007 Triamec AG">
+    <Position X="0.5" Y="0.5" Height="0.615" Width="3.712" />
+  </Comment>
+  <Class Name="Triamec.Tam.UI.TamExplorerForm" Collapsed="true">
+    <Position X="0.5" Y="3" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Triamec.Tam.Samples.UI.DirectFeedForm">
+    <Position X="5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAAAEEBCRDAIBAAQBAgBDCAEAAAAAAAKA0gAAIAAA=</HashCode>
+      <FileName>DirectFeedForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DirectFeedBusiness" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Triamec.Tam.Samples.UI.DirectFeedControl">
+    <Position X="9.5" Y="0.5" Width="2" />
+    <AssociationLine Name="DirectFeedBusiness" Type="Triamec.Tam.Samples.DirectFeed">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.131" Y="0.279" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="DirectFeedBusiness" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Triamec.Tam.Samples.DirectFeed" Collapsed="true">
+    <Position X="9.5" Y="3" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Triamec.Tam.Samples.DirectFeedStateMachine" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Triamec.Tam.Samples.TransitionEventArgs" Collapsed="true">
+    <Position X="9.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Sender" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="Triamec.Tam.Samples.DirectFeedState" Collapsed="true">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Direct Feeder Sample Business Model &#xD;&#xA;$Id: DirectFeed.cd 35446 2020-11-10 10:07:51Z chm $&#xD;&#xA;Copyright © 2011 Triamec AG">
+    <Position X="0.5" Y="0.5" Height="0.615" Width="3.712" />
+  </Comment>
+  <Class Name="Triamec.Tam.Samples.DirectFeed">
+    <Position X="0.5" Y="5.25" Width="2.5" />
+    <Members>
+      <Field Name="_syncPoint" Hidden="true" />
+      <Field Name="_system" Hidden="true" />
+      <Method Name="ChooseTables" Hidden="true" />
+      <Method Name="ImportCompleted" Hidden="true" />
+      <Method Name="ImportRow" Hidden="true" />
+      <Property Name="IsFeeding" Hidden="true" />
+      <Method Name="OnAxisError" Hidden="true" />
+      <Method Name="OnTransition" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAQACQgAaA0EgUABEDACAAAAAQC4AIAZAAlAAWEAgQ=</HashCode>
+      <FileName>DirectFeed.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Triamec.Tam.Samples.DirectFeedAxis" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="8.5" Width="1.75" />
+    <Members>
+      <Property Name="Axis" Hidden="true" />
+      <Method Name="Couple" Hidden="true" />
+      <Method Name="Disable" Hidden="true" />
+      <Method Name="Enable" Hidden="true" />
+      <Property Name="EncoderSource" Hidden="true" />
+      <Property Name="ParkPosition" Hidden="true" />
+      <Property Name="StartPosition" Hidden="true" />
+      <Property Name="Subscriber" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAQCAAAEAADIRAEACAASAQAAAAQAAAAAAggAAAIAAA=</HashCode>
+      <FileName>DirectFeedAxis.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Axis" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="Triamec.Tam.Samples.DirectFeedStateMachine">
+    <Position X="0.5" Y="1.5" Width="2.5" />
+    <Members>
+      <Field Name="_syncLock" Hidden="true" />
+      <Method Name="DirectFeedStateMachine" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAABAAAACAACIAAABAAAAADAIAiAAAAAA=</HashCode>
+      <FileName>DirectFeedStateMachine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentState" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Triamec.Tam.Samples.TransitionEventArgs">
+    <Position X="4.5" Y="2.75" Width="1.75" />
+    <Members>
+      <Method Name="TransitionEventArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAIAAA=</HashCode>
+      <FileName>TransitionEventArgs.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sender" />
+      <Property Name="State" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="Triamec.Tam.Samples.IDirectFeedAxis">
+    <Position X="4.5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQCAAAEAAAIRAAACAASAQAAAAQAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>IDirectFeedAxis.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Triamec.Tam.Samples.DirectFeedState">
+    <Position X="11" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABQQCAACUISAoCIQACJAAgAACEgAAYAAAAAAAkAESU=</HashCode>
+      <FileName>DirectFeedState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
