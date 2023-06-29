@@ -1,5 +1,7 @@
 # DirectFeed Sample
 
+[![TAM - API](https://img.shields.io/static/v1?label=TAM&message=API&color=b51839)](https://www.triamec.com/en/tam-api.html)
+
 The DirectFeed sample enables to process arbitrarily big move profiles for one or several axes.
 There are many buttons to demonstrate what's happening under the covers. However, the Auto Loop
 button as well as a command line switch allow for automating repeated profile moves.
