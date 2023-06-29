@@ -70,7 +70,7 @@ the system. For detailed information refer to the ![State Machine](./doc/DirectF
 ## 4 Shortcomings
 The application imports all positions as single precision floating point numbers.
 
-As a developer, you may customize the rate the packet feeder feeds packets to the drives using the `PacketFeeder.DownsamplingControl` peripheral register. This application uses the maximal feasible rate as indicated by the `IsochronousBasePeriod` of the first configured station. However, move
+As a developer, you may customize the rate the packet feeder feeds packets to the drives using the `PacketFeeder.DownsamplingControl` peripheral register. This application uses the maximal feasible rate as indicated by the `IsochronousBasePeriod` of the first configured station. However, move
 profiles might include information about the rate, too (as is the case with the example `data.txt`). The
 application currently ignores this information.
 
