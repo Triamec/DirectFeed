@@ -1,4 +1,6 @@
-# DirectFeed
+# DirectFeed Sample
+
+## Overview
 
 The DirectFeed sample enables to process arbitrarily big move profiles for one or several axes.
 There are many buttons to demonstrate what's happening under the covers. However, the Auto Loop
@@ -7,3 +9,5 @@ Additionally, when dragging a move profile file over the application icon, it wi
 Please read and follow the recommendations in this document before first starting the application.
 
 Please refer to the [Manual](./doc/SWNET-DirectFeedOverview-EP007.pdf) for detailed explanations
+
+## Configuration
