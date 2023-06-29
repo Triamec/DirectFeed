@@ -7,7 +7,7 @@ Additionally, when dragging a move profile file over the application icon, it wi
 
 **Please read and follow the recommendations in this document before first starting the application.**
 
-## 1 Configuration
+## Configuration
 This document presumes Visual Studio as IDE to use with the sample projects. When starting Visual
 Studio, one or more security warnings will be shown. In order to work properly, choose “Load project
 normally” and acknowledge the dialog.
@@ -41,7 +41,7 @@ The `PositionDimensionality` preference affects the amount of data sent to one a
 
 The imported data must have an according layout.
 
-## 2 Motion Profiles
+## Motion Profiles
 A simple motion profile, `data.txt`, is shipped as example, look in the `DirectFeedApplication` project.
 
 The motion profile needs to correspond with the `Axis` and `PositionDimensionality` preferences
@@ -55,7 +55,7 @@ TAM System Explorer as follows:
 - Save plots as comma separated value file.
 - Modify the first two data rows such that the first data row contains the park position and the second data row the start position. The start position is the first actual row of the motion profile.
 
-## 3 Application Modes
+## Application Modes
 When simply starting the application, a window with plenty of buttons is presented. The left button column sets up DirectFeed top down while the right column is used for tear down bottom up. A history is shown at the bottom of the window. Text printed out in red indicates some warning or error, mostly  due to some unlucky configuration.
 
 The *Auto Loop* button will automatically start the process of repeatedly feeding the motion profile, using the buttons from the *Feeder Loop* group. If you omit the *Auto Loop* button, you may step through the process manually.
@@ -67,7 +67,7 @@ method demonstrates the use of the different business functionality in correct s
 and history will reflect progress. When you intercept the script by pressing a button, this will tear down
 the system. For detailed information refer to the ![State Machine](./doc/DirectFeedStateMachine.pdf) of the application.
 
-## 4 Shortcomings
+## Shortcomings
 The application imports all positions as single precision floating point numbers.
 
 As a developer, you may customize the rate the packet feeder feeds packets to the drives using the `PacketFeeder.DownsamplingControl` peripheral register. This application uses the maximal feasible rate as indicated by the `IsochronousBasePeriod` of the first configured station. However, move
