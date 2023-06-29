@@ -14,7 +14,6 @@ Studio, one or more security warnings will be shown. In order to work properly, 
 normally” and acknowledge the dialog.
 When first opening the solution, set the `DirectFeedApplication` project as startup project.
 
-### 1.1 Hardware Environment
 Several configurations within the `DirectFeed.sln` must be adjusted to the actual hardware environment to execute the application for.
 The starting point is a working TAM configuration for your system. Refer to the Drive Setup User Guide
 on how to set up a configuration.
@@ -34,7 +33,7 @@ The order of the axes is significant in several aspects:
 
 - The order must be according to the data columns.
 - If there are mechanical constraints, the order defines the sequence the axes move to their start and park positions. The application moves the axes to the start positions one by one in the order they are defined, and in reverse order back to park position.
-- 
+  
 The `PositionDimensionality` preference affects the amount of data sent to one axis. The application supports the following values:
 
 - 1 – send position.
@@ -44,14 +43,36 @@ The `PositionDimensionality` preference affects the amount of data sent to one a
 The imported data must have an according layout.
 
 ## 2 Motion Profiles
-A simple motion profile, `data.txt`, is shipped as example, look in the `DirectFeedApplication`
-project.
+A simple motion profile, `data.txt`, is shipped as example, look in the `DirectFeedApplication` project.
+
 The motion profile needs to correspond with the `Axis` and `PositionDimensionality` preferences
 as introduced in chapter 1.1 above. For each specified axis, `PositionDimensionality` number of
 columns need to be specified, in correct order. Columns exceeding that requirement will be ignored.
+
 Beneath the provided sample `data.txt` profile, simple profiles may be created using the scope of the
 TAM System Explorer as follows:
 
 - Of the path planner signals, plot position, velocity, and acceleration of each axis with 10kHz while moving.
 - Save plots as comma separated value file.
 - Modify the first two data rows such that the first data row contains the park position and the second data row the start position. The start position is the first actual row of the motion profile.
+
+## 3 Application Modes
+When simply starting the application, a window with plenty of buttons is presented. The left button column sets up DirectFeed top down while the right column is used for tear down bottom up. A history is shown at the bottom of the window. Text printed out in red indicates some warning or error, mostly  due to some unlucky configuration.
+
+The *Auto Loop* button will automatically start the process of repeatedly feeding the motion profile, using the buttons from the *Feeder Loop* group. If you omit the *Auto Loop* button, you may step through the process manually.
+
+There is another mode, comparable to an autopilot, which is activated by passing the name of a motion
+profile file to the DirectFeed application. Dragging the motion profile file over the application icon in
+Windows Explorer does just this. In this case, the `DirectFeed.Execute` method will be called. This
+method demonstrates the use of the different business functionality in correct sequence. The buttons
+and history will reflect progress. When you intercept the script by pressing a button, this will tear down
+the system.
+
+## 4 Shortcomings
+The application imports all positions as single precision floating point numbers.
+
+As a developer, you may customize the rate the packet feeder feeds packets to the drives using the `PacketFeeder.DownsamplingControl` peripheral register. This application uses the maximal feasible rate as indicated by the `IsochronousBasePeriod` of the first configured station. However, move
+profiles might include information about the rate, too (as is the case with the example `data.txt`). The
+application currently ignores this information.
+
+Triamec didn’t design this application for use in a production environment.
