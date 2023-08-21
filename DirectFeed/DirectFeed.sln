@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{009A47F3-9413-4921-AF0B-68C05F5B342E}"
+	ProjectSection(SolutionItems) = preProject
+		..\doc\DirectFeedStateMachine.odg = ..\doc\DirectFeedStateMachine.odg
+		..\doc\DirectFeedStateMachine.pdf = ..\doc\DirectFeedStateMachine.pdf
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectFeed", "DirectFeed\DirectFeed.csproj", "{1449C6AB-3BB0-4F18-8155-D8AB6433854C}"
 EndProject

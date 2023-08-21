@@ -66,7 +66,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <Content Include="ClassDiagrams\DirectFeed.cd" />
-    <Content Include="DirectFeedStateMachine.odg" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
