@@ -645,6 +645,9 @@ namespace Triamec.Tam.Samples {
 			// if at least one position is double precision, the column count needs to be one more than dimensionality.
 			var positionSizeMax = _feederAxes.Select(axis => axis.PositionSize).Max();
 
+			// reset feeder
+			_feeder.Stop();
+
 			_feeder.ColumnCount = PositionDimensionality + positionSizeMax - 1;
 		}
 
