@@ -425,9 +425,7 @@ namespace Triamec.Tam.Samples {
 
 					}
 					for (int i = 0; i < _feederAxes.Length; i++) {
-						if (requests[i] != null) {
-							requests[i].WaitForSuccess(StopTimeout);
-						}
+						requests[i]?.WaitForSuccess(StopTimeout);
 					}
 					StopFeeding(null);
 					Transit(DirectFeedState.Enabled);
@@ -480,8 +478,7 @@ namespace Triamec.Tam.Samples {
 
 						// loop over all stations in the Tria-Link
 						foreach (TamStation station in link.Stations) {
-							var drive = station.Device as ITamDrive;
-							if ((drive != null) && (station.Name == configuration.DriveName) &&
+							if ((station.Device is ITamDrive drive) && (station.Name == configuration.DriveName) &&
 								(drive.Axes.Count > configuration.AxisIndex)) {
 
 								// lock adapter
@@ -491,11 +488,9 @@ namespace Triamec.Tam.Samples {
 									#region Get table feeder
 									var periphery = (adapter as IPeripheryLayoutOwner)?.Periphery;
 									if (periphery?.Contains(PeripheryDeviceIdentification.PacketFeeders) ?? false) {
-										var tableFeedersDevice = periphery.GetDevice(
-											PeripheryDeviceIdentification.PacketFeeders) as PacketFeedersDevice;
-
 										#region Sanity checks
-										if (tableFeedersDevice == null) {
+										if (!(periphery.GetDevice(
+											PeripheryDeviceIdentification.PacketFeeders) is PacketFeedersDevice tableFeedersDevice)) {
 											messageBuilder.AppendLine("No table feeders device found.");
 											break;
 										}
@@ -572,12 +567,12 @@ namespace Triamec.Tam.Samples {
 					var s = subscriptionManager.Subscribe(feeder);
 					subscriptions[axisIndex] = s;
 					if (axisIndex == subscriptions.Length - 1) {
-					    s.PacketSender.PacketsAvailable += (o, a) => {
-					        var packets = s.PacketSender.Dequeue();
-					        foreach (var packet in packets) {
-					            testWriter.WriteLine(packet[3].AsSingle);
-					        }
-					    };
+						s.PacketSender.PacketsAvailable += (o, a) => {
+							var packets = s.PacketSender.Dequeue();
+							foreach (var packet in packets) {
+								testWriter.WriteLine(packet[3].AsSingle);
+							}
+						};
 					}
 					s.Enable();
 #endif

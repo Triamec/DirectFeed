@@ -49,13 +49,9 @@ namespace Triamec.Tam.Samples {
 		public DirectFeedAxis(TamAxis axis, PacketFeederTable table1, PacketFeederTable table2,
 			EncoderSource encoderSource) {
 
-			#region Sanity checks
-			if (axis == null) throw new ArgumentNullException(nameof(axis));
+			Axis = axis ?? throw new ArgumentNullException(nameof(axis));
 			if (table1 == null) throw new ArgumentNullException(nameof(table1));
 			if (table2 == null) throw new ArgumentNullException(nameof(table2));
-			#endregion Sanity checks
-
-			Axis = axis;
 
 			// Most drives get integrated into a real time control system. Accessing them via TAM API like we do here is considered
 			// a secondary use case. Tell the axis that we're going to take control. Otherwise, the axis might reject our commands.
@@ -271,13 +267,8 @@ namespace Triamec.Tam.Samples {
 			if (startPosition) {
 				// move axis by axis (0,1,2,...) sequentially 
 				for (int axisIndex = 0; axisIndex < axesCount; ++axisIndex) {
-					IDirectFeedAxis feederAxis = feederAxes[axisIndex];
-
-					#region sanity checks
-					if (feederAxis == null) {
+					IDirectFeedAxis feederAxis = feederAxes[axisIndex] ??
 						throw new ArgumentException("Feeder axis " + axisIndex + " is null.", nameof(feederAxes));
-					}
-					#endregion sanity checks
 
 					var position = feederAxis.StartPosition;
 					feederAxis.Axis.MoveAbsolute(position, PathPlannerDirection.Shortest)
@@ -286,13 +277,8 @@ namespace Triamec.Tam.Samples {
 			} else {
 				// move axis by axis (last, last-1, .. 0) sequentially 
 				for (int axisIndex = axesCount - 1; axisIndex >= 0; --axisIndex) {
-					IDirectFeedAxis feederAxis = feederAxes[axisIndex];
-
-					#region sanity checks
-					if (feederAxis == null) {
+					IDirectFeedAxis feederAxis = feederAxes[axisIndex] ??
 						throw new ArgumentException("Feeder axis " + axisIndex + " is null.", nameof(feederAxes));
-					}
-					#endregion sanity checks
 
 					var position = feederAxis.ParkPosition;
 					feederAxis.Axis.MoveAbsolute(position, PathPlannerDirection.Shortest)

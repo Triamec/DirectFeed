@@ -61,4 +61,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 
-[module: SuppressMessage("Microsoft.Design", "CA1020", Target = "Triamec.Tam.Samples.UI", Scope = "namespace")]
+[module: SuppressMessage("Microsoft.Design", "CA1020", Target = "~N:Triamec.Tam.Samples.UI", Scope = "namespace")]

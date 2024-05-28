@@ -29,8 +29,7 @@ namespace Triamec.Tam.Samples.UI {
 				var builder = new StringBuilder(originalEx.FullMessage());
 				foreach (var item in originalEx.Data.Values) {
 					builder.AppendLine();
-					var dataEx = item as Exception;
-					builder.Append(dataEx == null ? item.ToString() : dataEx.FullMessage());
+					builder.Append(!(item is Exception dataEx) ? item.ToString() : dataEx.FullMessage());
 				}
 				MessageBox.Show(builder.ToString(), "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error,
 					MessageBoxDefaultButton.Button1, 0);
