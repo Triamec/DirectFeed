@@ -156,11 +156,7 @@ namespace Triamec.Tam.Samples.UI {
 				if (OwnsTopology) {
 					success = ResetTopology();
 				} else {
-
-					// disable view explorer because we cannot pass the topology in this mode
-					_systemExplorerToolStripMenuItem.Enabled = false;
-
-					DirectFeedBusiness.Execute(_path, Settings.Default.Repeat, Settings.Default.Axes);
+					DirectFeedBusiness.Execute(_path, t => _topology = t, Settings.Default.Repeat, Settings.Default.Axes);
 				}
 			} else if (e.Argument == _resetToolStripMenuItem) {
 				success = ResetTopology();

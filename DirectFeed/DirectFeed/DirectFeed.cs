@@ -895,6 +895,7 @@ namespace Triamec.Tam.Samples {
 		/// Applies the path in the specified file to the specified devices.
 		/// </summary>
 		/// <param name="path">The path.</param>
+		/// <param name="topologyMonitor">If set, called with the topology instance created in this method.</param>
 		/// <param name="timeout">
 		/// The timeout or <see cref="Timeout.InfiniteTimeSpan"/> to wait indefinitely. Used for all operations
 		/// potentially timing out.
@@ -908,10 +909,11 @@ namespace Triamec.Tam.Samples {
 		/// 	<para>Ignores the first row, and expects the other rows being sorted by axes, then by positions,
 		/// compliant to <see cref="AxisCount"/> and <see cref="PositionDimensionality"/>.</para>
 		/// </remarks>
-		public void Execute(string path, TimeSpan timeout, bool repeat,
+		public void Execute(string path, Action<TamTopology> topologyMonitor, TimeSpan timeout, bool repeat,
 			params AxisConfiguration[] configurations) {
 
 			using (var topology = new TamTopology()) {
+				topologyMonitor?.Invoke(topology);
 
 				// give some feedback what's going on
 #if DEBUG
@@ -967,9 +969,9 @@ namespace Triamec.Tam.Samples {
 			}
 		}
 
-		/// <inheritdoc cref="Execute(string,TimeSpan,bool, AxisConfiguration[])"/>
-		public void Execute(string path, bool repeat, params AxisConfiguration[] configurations) =>
-			Execute(path, Timeout.InfiniteTimeSpan, repeat, configurations);
+		/// <inheritdoc cref="Execute(string, Action{TamTopology}, TimeSpan, bool, AxisConfiguration[])"/>
+		public void Execute(string path, Action<TamTopology> topologyMonitor, bool repeat, params AxisConfiguration[] configurations) =>
+			Execute(path, topologyMonitor, Timeout.InfiniteTimeSpan, repeat, configurations);
 
 		#endregion Public Methods
 
