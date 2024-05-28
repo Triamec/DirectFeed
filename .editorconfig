@@ -5,7 +5,12 @@
 root = true
 
 [*.cs]
+indent_style = tab
+indent_size = 4
 csharp_new_line_before_open_brace = none
 csharp_new_line_before_else = false
 csharp_new_line_before_catch = false
 csharp_new_line_before_finally = false
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = silent
