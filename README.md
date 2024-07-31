@@ -45,7 +45,7 @@ The imported data must have an according layout.
 A simple motion profile, `data.txt`, is shipped as example, look in the `DirectFeedApplication` project.
 
 The motion profile needs to correspond with the `Axis` and `PositionDimensionality` preferences
-as introduced in chapter 1.1 above. For each specified axis, `PositionDimensionality` number of
+as introduced above. For each specified axis, `PositionDimensionality` number of
 columns need to be specified, in correct order. Columns exceeding that requirement will be ignored.
 
 Beneath the provided sample `data.txt` profile, simple profiles may be created using the scope of the
