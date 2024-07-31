@@ -33,21 +33,16 @@ namespace Triamec.Tam.Samples {
 		/// <param name="axis">The axis to create the <see cref="DirectFeedAxis"/> from.</param>
 		/// <param name="table1">The first table feeding this axis.</param>
 		/// <param name="table2">The second table feeding this axis, while the first table is refilled.</param>
-		/// <param name="encoderSource">The encoder source.</param>
 		/// <exception cref="ArgumentNullException">
 		/// 	<paramref name="axis"/>, <paramref name="table1"/> or <paramref name="table2"/> is
 		/// <see langword="null"/>.
-		/// </exception>
-		/// <exception cref="NotSupportedException">
-		/// The <paramref name="encoderSource"/> can't be set for the <paramref name="axis"/>.
 		/// </exception>
 		/// <exception cref="TamException">
 		/// 	<para>A communication timeout occurred.</para>
 		/// 	<para>-or-</para>
 		/// 	<para>A register is not present for the specified axis.</para>
 		/// </exception>
-		public DirectFeedAxis(TamAxis axis, PacketFeederTable table1, PacketFeederTable table2,
-			EncoderSource encoderSource) {
+		public DirectFeedAxis(TamAxis axis, PacketFeederTable table1, PacketFeederTable table2) {
 
 			Axis = axis ?? throw new ArgumentNullException(nameof(axis));
 			if (table1 == null) throw new ArgumentNullException(nameof(table1));
@@ -92,32 +87,6 @@ namespace Triamec.Tam.Samples {
 
 			// create read only table view
 			Tables = Array.AsReadOnly(new[] { table1, table2 });
-
-			#region Select the encoder source
-			if (Axis.Drive.Station.Periphery.Contains(PeripheryDeviceIdentification.Encoder)) {
-
-				EncoderSource = encoderSource;
-				var endatControl = new EndatControl(axis);
-				switch (encoderSource) {
-					case EncoderSource.Analog:
-						endatControl.SetToPositionControlModeUsingInternalEncoder();
-						break;
-
-					case EncoderSource.EnDat:
-
-						// initialize EnDat interface
-						endatControl.InitializeEndatInterface();
-
-						// set encoder source to EnDat
-						endatControl.SetToPositionControlModeUsingEndat();
-						break;
-
-					default:
-						throw new NotSupportedException("Encoder source must be Analog or EnDat.");
-						// break;
-				}
-			}
-			#endregion Select the encoder source
 		}
 		#endregion Constructor
 

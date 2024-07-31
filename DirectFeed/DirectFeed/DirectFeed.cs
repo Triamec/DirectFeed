@@ -22,7 +22,7 @@ using Triamec.TamMath;
 using Triamec.TriaLink;
 
 namespace Triamec.Tam.Samples {
-	using static CultureInfo;
+	using static FormattableString;
 
 	/// <summary>
 	/// Business logic for the direct feed sample application.
@@ -150,7 +150,7 @@ namespace Triamec.Tam.Samples {
 		#endregion IDisposable members
 
 		#region Private properties
-		bool IsFeeding => 
+		bool IsFeeding =>
 			(CurrentState == DirectFeedState.FeedingMove) || (CurrentState == DirectFeedState.FeedingAttached);
 
 		#endregion Private properties
@@ -442,15 +442,15 @@ namespace Triamec.Tam.Samples {
 		/// <summary>
 		/// Identifies the stations of the application.
 		/// </summary>
-		/// <param name="configurations">The configurations for one or multiple axes to use.</param>
+		/// <param name="axisNames">The configurations for one or multiple axes to use.</param>
 		/// <returns>
 		/// 	<see langword="true"/> if the expected system was found;
 		/// otherwise, <see langword="false"/>.
 		/// </returns>
-		public bool Identify(params AxisConfiguration[] configurations) {
+		public bool Identify(params string[] axisNames) {
 
 			// Don't continue when no axes where configured
-			if ((configurations == null) || (configurations.Length == 0)) {
+			if ((axisNames == null) || (axisNames.Length == 0)) {
 				Transit("No axes configured.");
 				return false;
 			}
@@ -459,79 +459,71 @@ namespace Triamec.Tam.Samples {
 
 			// reset state
 			_feeder = null;
-			_feederAxes = new IDirectFeedAxis[configurations.Length];
+			_feederAxes = new IDirectFeedAxis[axisNames.Length];
 
 			TamAdapter adapterToUse = null;
 
 			var messageBuilder = new StringBuilder();
 
-			for (int axisIndex = 0; axisIndex < configurations.Length; axisIndex++) {
-				var configuration = configurations[axisIndex];
+			for (int axisIndex = 0; axisIndex < axisNames.Length; axisIndex++) {
+				var axisName = axisNames[axisIndex];
 
 				// loop over all adapters of the TAM system (however, lock to one adapter)
 				foreach (TamAdapter adapter in System.Adapters.Where(adapter =>
 					adapterToUse == null || adapter == adapterToUse)) {
 
-					// loop over all Tria-Links of the adapter
-					var link = adapter.Link;
-					if (link != null) {
+					// loop over all axes within the adapter
+					foreach (var axis in adapter.AsDepthFirstLeaves<TamAxis>()) {
+						if (axis.Name == axisName) {
 
-						// loop over all stations in the Tria-Link
-						foreach (TamStation station in link.Stations) {
-							if ((station.Device is ITamDrive drive) && (station.Name == configuration.DriveName) &&
-								(drive.Axes.Count > configuration.AxisIndex)) {
+							// lock adapter
+							adapterToUse = adapter;
 
-								// lock adapter
-								adapterToUse = adapter;
-
-								if (_feeder == null) {
-									#region Get table feeder
-									var periphery = (adapter as IPeripheryLayoutOwner)?.Periphery;
-									if (periphery?.Contains(PeripheryDeviceIdentification.PacketFeeders) ?? false) {
-										#region Sanity checks
-										if (!(periphery.GetDevice(
-											PeripheryDeviceIdentification.PacketFeeders) is PacketFeedersDevice tableFeedersDevice)) {
-											messageBuilder.AppendLine("No table feeders device found.");
-											break;
-										}
-										#endregion Sanity checks
-
-										// use the whole SDRAM, equally portioned for all tables
-										uint packetCapacity = tableFeedersDevice.PacketCapacity;
-										_length = packetCapacity / (2 * (uint)configurations.Length);
-
-										_feeder = tableFeedersDevice[0];
+							if (_feeder == null) {
+								#region Get table feeder
+								var periphery = (adapter as IPeripheryLayoutOwner)?.Periphery;
+								if (periphery?.Contains(PeripheryDeviceIdentification.PacketFeeders) ?? false) {
+									#region Sanity checks
+									if (!(periphery.GetDevice(
+										PeripheryDeviceIdentification.PacketFeeders) is PacketFeedersDevice tableFeedersDevice)) {
+										messageBuilder.AppendLine("No table feeders device found.");
+										break;
 									}
-									#endregion Get table feeder
+									#endregion Sanity checks
+
+									// use the whole SDRAM, equally portioned for all tables
+									uint packetCapacity = tableFeedersDevice.PacketCapacity;
+									_length = packetCapacity / (2 * (uint)axisNames.Length);
+
+									_feeder = tableFeedersDevice[0];
 								}
-
-								try {
-									#region Create the tables to work with
-
-									PacketFeederTable table1 = _feeder[2 * axisIndex];
-									table1.WriteTableAddress(2 * (uint)axisIndex * _length);
-
-									PacketFeederTable table2 = _feeder[2 * axisIndex + 1];
-									table2.WriteTableAddress((2 * (uint)axisIndex + 1) * _length);
-
-									// note: column counts are written at a later stage
-									#endregion Create the tables to work with
-
-									_feederAxes[axisIndex] = new DirectFeedAxis(drive.Axes[
-										configuration.AxisIndex], table1, table2, configuration.EncoderSource);
-								} catch (TamException ex) {
-									messageBuilder.Append(ex.FullMessage());
-								} catch (NotSupportedException ex) {
-									messageBuilder.Append(ex.FullMessage());
-								}
-								_feederAxes[axisIndex].MotionError += OnAxisError;
+								#endregion Get table feeder
 							}
+
+							try {
+								#region Create the tables to work with
+
+								PacketFeederTable table1 = _feeder[2 * axisIndex];
+								table1.WriteTableAddress(2 * (uint)axisIndex * _length);
+
+								PacketFeederTable table2 = _feeder[2 * axisIndex + 1];
+								table2.WriteTableAddress((2 * (uint)axisIndex + 1) * _length);
+
+								// note: column counts are written at a later stage
+								#endregion Create the tables to work with
+
+								_feederAxes[axisIndex] = new DirectFeedAxis(axis, table1, table2);
+							} catch (TamException ex) {
+								messageBuilder.Append(ex.FullMessage());
+							} catch (NotSupportedException ex) {
+								messageBuilder.Append(ex.FullMessage());
+							}
+							_feederAxes[axisIndex].MotionError += OnAxisError;
 						}
 					}
 				}
 				if (_feederAxes[axisIndex] == null) {
-					messageBuilder.AppendFormat(InvariantCulture, "Device {0} [{1}] not found.{2}",
-						configuration.DriveName, configuration.AxisIndex, Environment.NewLine);
+					messageBuilder.AppendLine(Invariant($"Axis {axisName} not found.{1}"));
 				}
 			}
 
@@ -901,7 +893,7 @@ namespace Triamec.Tam.Samples {
 		/// potentially timing out.
 		/// </param>
 		/// <param name="repeat">Whether to repeat feeding the configured paths.</param>
-		/// <param name="configurations">Specifies the axes to use.</param>
+		/// <param name="axes">The names of the axes to use.</param>
 		/// <exception cref="TamException">Exception occurred in the TAM layer.</exception>
 		/// <remarks>
 		/// 	<para>Loads the <see cref="TamTopologyConfiguration.TamConfigurationPath"/>, if specified.</para>
@@ -910,7 +902,7 @@ namespace Triamec.Tam.Samples {
 		/// compliant to <see cref="AxisCount"/> and <see cref="PositionDimensionality"/>.</para>
 		/// </remarks>
 		public void Execute(string path, Action<TamTopology> topologyMonitor, TimeSpan timeout, bool repeat,
-			params AxisConfiguration[] configurations) {
+			params string[] axes) {
 
 			using (var topology = new TamTopology()) {
 				topologyMonitor?.Invoke(topology);
@@ -927,7 +919,7 @@ namespace Triamec.Tam.Samples {
 				if (!string.IsNullOrEmpty(config)) topology.Load(config);
 
 				// setup feeder
-				Identify(configurations);
+				Identify(axes);
 				PrepareFilling();
 				Importer.FileName = path;
 				Importer.RowRanges.ReplaceParsed("10-", NumberFormatInfo.InvariantInfo);
@@ -969,9 +961,9 @@ namespace Triamec.Tam.Samples {
 			}
 		}
 
-		/// <inheritdoc cref="Execute(string, Action{TamTopology}, TimeSpan, bool, AxisConfiguration[])"/>
-		public void Execute(string path, Action<TamTopology> topologyMonitor, bool repeat, params AxisConfiguration[] configurations) =>
-			Execute(path, topologyMonitor, Timeout.InfiniteTimeSpan, repeat, configurations);
+		/// <inheritdoc cref="Execute(string, Action{TamTopology}, TimeSpan, bool, string[])"/>
+		public void Execute(string path, Action<TamTopology> topologyMonitor, bool repeat, params string[] axes) =>
+			Execute(path, topologyMonitor, Timeout.InfiniteTimeSpan, repeat, axes);
 
 		#endregion Public Methods
 

@@ -39,7 +39,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AxisConfiguration.cs" />
     <Compile Include="IDirectFeedAxis.cs" />
     <Compile Include="DirectFeed.cs" />
     <Compile Include="DirectFeedAxis.cs" />
