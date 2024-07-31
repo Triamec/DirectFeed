@@ -10,6 +10,7 @@ using Triamec.Configuration.UI;
 using Triamec.Tam.Configuration;
 using Triamec.Tam.Samples.UI.Properties;
 using Triamec.Tam.UI;
+using Triamec.TriaLink.Adapter;
 
 namespace Triamec.Tam.Samples.UI {
 	/// <summary>
@@ -325,7 +326,7 @@ namespace Triamec.Tam.Samples.UI {
 				_directFeedControl.AppendLine(Continuation + "Create and boot the new topology");
 				try {
 					_topology = new TamTopology();
-					_topology.AddLocalSystem();
+					_topology.AddLocalSystem(DataLinkLayers.TriaLink);
 					TamSystem.Initialize();
 
 				} catch (ArgumentException ex) {

@@ -20,6 +20,7 @@ using Triamec.Tam.Samples.Properties;
 using Triamec.Tam.Subscriptions;
 using Triamec.TamMath;
 using Triamec.TriaLink;
+using Triamec.TriaLink.Adapter;
 
 namespace Triamec.Tam.Samples {
 	using static FormattableString;
@@ -913,7 +914,7 @@ namespace Triamec.Tam.Samples {
 #endif
 
 				// setup system
-				System = topology.AddLocalSystem();
+				System = topology.AddLocalSystem(DataLinkLayers.TriaLink);
 				System.Initialize();
 				var config = TamTopologyConfiguration.TamConfigurationPath;
 				if (!string.IsNullOrEmpty(config)) topology.Load(config);
