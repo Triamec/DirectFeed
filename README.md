@@ -26,9 +26,7 @@ preferences as described above may affect other applications as well.*
 
 As next step, configure the preferences shown in the *DirectFeed* category.
 At least, the *Axes* preference needs your attention. Initially, there are no axes configured. Clicking on
-the ellipsis on the right will show a collection editor which allows you to add, reorder and modify individual axis configurations. The application identifies each axis by the name of the station and the index
-of the axis within the drive. *Encoder Type* has to be left as *Analog* for digital and analog encoders, and
-set to *Endat* for EnDat digital encoders.
+the ellipsis on the right will show a collection editor which allows you to specify the names of the target axes.
 
 The order of the axes is significant in several aspects:
 
@@ -37,8 +35,8 @@ The order of the axes is significant in several aspects:
   
 The `PositionDimensionality` preference affects the amount of data sent to one axis. The application supports the following values:
 
-- 1 – send position.
-- 2 – send position and velocity.
+- 1 – send position (not recommended since firmware doesn't yet derive velocity and acceleration).
+- 2 – send position and velocity (not recommended since firmware doesn't yet derive acceleration).
 - 3 – send position, velocity, and acceleration.
 
 The imported data must have an according layout.
