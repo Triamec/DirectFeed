@@ -524,7 +524,7 @@ namespace Triamec.Tam.Samples {
 					}
 				}
 				if (_feederAxes[axisIndex] == null) {
-					messageBuilder.AppendLine(Invariant($"Axis {axisName} not found.{1}"));
+					messageBuilder.AppendLine(Invariant($"Axis {axisName} not found."));
 				}
 			}
 
