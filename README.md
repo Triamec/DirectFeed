@@ -21,8 +21,9 @@ on how to set up a configuration.
 If you didn’t make the configuration persistent on the drive, you’ll need to set up the path to the configuration by starting this application, then going to preferences using menu **File | Preferences…**, and
 setting the *TAM configuration* file preference in the *Startup* category appropriately.
 
-*Note: This application works with the default Triamec workspace on the system. That is, changing
-preferences as described above may affect other applications as well.*
+> [!NOTE]
+> This application works with the default Triamec workspace on the system. That is, changing
+preferences as described above may affect other applications as well.
 
 As next step, configure the preferences shown in the *DirectFeed* category.
 At least, the *Axes* preference needs your attention. Initially, there are no axes configured. Clicking on
@@ -71,7 +72,7 @@ and history will reflect progress.
 > When you intercept the script by pressing a button, this will tear down
 the system. For detailed information refer to the ![State Machine](./doc/DirectFeedStateMachine.pdf) of the application.
 
-The `Repeat` preference determines whether the path will be looped.
+The *Repeat* preference determines whether the path will be looped.
 
 ## Shortcomings
 The application imports all positions as single precision floating point numbers.
