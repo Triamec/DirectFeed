@@ -60,12 +60,18 @@ When simply starting the application, a window with plenty of buttons is present
 
 The *Auto Loop* button will automatically start the process of repeatedly feeding the motion profile, using the buttons from the *Feeder Loop* group. If you omit the *Auto Loop* button, you may step through the process manually.
 
+### Scripting
+
 There is another mode, comparable to an autopilot, which is activated by passing the name of a motion
 profile file to the DirectFeed application. Dragging the motion profile file over the application icon in
 Windows Explorer does just this. In this case, the `DirectFeed.Execute` method will be called. This
 method demonstrates the use of the different business functionality in correct sequence. The buttons
-and history will reflect progress. When you intercept the script by pressing a button, this will tear down
+and history will reflect progress.
+> [!WARNING]
+> When you intercept the script by pressing a button, this will tear down
 the system. For detailed information refer to the ![State Machine](./doc/DirectFeedStateMachine.pdf) of the application.
+
+The `Repeat` preference determines whether the path will be looped.
 
 ## Shortcomings
 The application imports all positions as single precision floating point numbers.
