@@ -7,7 +7,10 @@ There are many buttons to demonstrate what's happening under the covers. However
 button as well as a command line switch allow for automating repeated profile moves.
 Additionally, when dragging a move profile file over the application icon, it will automatically be executed.
 
-**Please read and follow the recommendations in this document before first starting the application.**
+> [!IMPORTANT]
+> Please read and follow the recommendations in this document before first starting the application.
+
+![image](./doc/app.png)
 
 ## Configuration
 This document presumes Visual Studio as IDE to use with the sample projects. When starting Visual
