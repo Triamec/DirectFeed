@@ -1,4 +1,4 @@
-# DirectFeed Sample
+﻿# DirectFeed Sample
 
 [![TAM - API](https://img.shields.io/static/v1?label=TAM&message=API&color=b51839)](https://www.triamec.com/en/tam-api.html)
 
@@ -12,10 +12,23 @@ Additionally, when dragging a move profile file over the application icon, it wi
 
 ![image](./doc/app.png)
 
+## Working on Parts
+
+This sample uses the concept of two initial positions:
+* The *park position*, the origin position for the sake of this application. This is thought to be outside the workpart. At the end of the motion profile, the application moves the tool back to the park position.
+* The *start position*, the position where the motion profile starts. Prior executing the profile, the application moves the tool from the park position to the start position. The motion profile then works on the part.
+
+Read the next two chapters on how to define these two positions.
+
+The application has a check box to specify whether it is actually working on the part. During execution of the motion
+profile, the *Decouple* button cannot be pressed if this check box is checked. Use a physical emergency stop button in
+case of hazard.
+
 ## Configuration
+
 This document presumes Visual Studio as IDE to use with the sample projects. When starting Visual
-Studio, one or more security warnings will be shown. In order to work properly, choose “Load project
-normally” and acknowledge the dialog.
+Studio, one or more security warnings will be shown. In order to work properly, choose *Load project
+normally* and acknowledge the dialog.
 When first opening the solution, set the `DirectFeedApplication` project as startup project.
 
 Several configurations within the `DirectFeed.sln` must be adjusted to the actual hardware environment to execute the application for.
@@ -46,6 +59,7 @@ The `PositionDimensionality` preference affects the amount of data sent to one a
 The imported data must have an according layout.
 
 ## Motion Profiles
+
 A simple motion profile, `data.txt`, is shipped as example, look in the `DirectFeedApplication` project.
 
 The motion profile needs to correspond with the `Axis` and `PositionDimensionality` preferences
@@ -60,6 +74,7 @@ TAM System Explorer as follows:
 - Modify the first two data rows such that the first data row contains the park position and the second data row the start position. The start position is the first actual row of the motion profile.
 
 ## Application Modes
+
 When simply starting the application, a window with plenty of buttons is presented. The left button column sets up DirectFeed top down while the right column is used for tear down bottom up. A history is shown at the bottom of the window. Text printed out in red indicates some warning or error, mostly  due to some unlucky configuration.
 
 The *Auto Loop* button will automatically start the process of repeatedly feeding the motion profile, using the buttons from the *Feeder Loop* group. If you omit the *Auto Loop* button, you may step through the process manually.
@@ -78,6 +93,7 @@ the system. For detailed information refer to the ![State Machine](./doc/DirectF
 The *Repeat* preference determines whether the path will be looped.
 
 ## Shortcomings
+
 The application imports all positions as single precision floating point numbers.
 
 As a developer, you may customize the rate the packet feeder feeds packets to the drives using the `PacketFeeder.DownsamplingControl` peripheral register. This application uses the maximal feasible rate as indicated by the `IsochronousBasePeriod` of the first configured station. However, move
