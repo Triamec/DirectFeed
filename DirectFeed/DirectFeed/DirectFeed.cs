@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using Triamec.Tam.Configuration;
 using Triamec.Tam.Periphery;
+using Triamec.Tam.Registers;
 using Triamec.Tam.Requests;
 using Triamec.Tam.Samples.Properties;
 using Triamec.Tam.Subscriptions;
